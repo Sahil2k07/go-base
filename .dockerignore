@@ -1,0 +1,8 @@
+.git
+*.md
+vendor
+configs
+.gitattributes
+.gitignore
+logs
+LICENSE

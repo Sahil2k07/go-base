@@ -1,0 +1,7 @@
+*.env
+/vendor/*
+
+/configs/*
+!/configs/*.example.toml
+
+/logs*
