@@ -9,3 +9,7 @@ db_port = "5432"
 db_user = "postgres"
 db_password = "shahil"
 db_name = "go-base"
+
+[server]
+port = ":5000"
+origins = ["http://localhost:3000", "https://example.com"]

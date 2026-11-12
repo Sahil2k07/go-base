@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-type databaseConfig struct {
+type DatabaseConfig struct {
 	Host     string `toml:"db_host"`
 	Port     string `toml:"db_port"`
 	User     string `toml:"db_user"`
@@ -13,18 +13,18 @@ type databaseConfig struct {
 	Name     string `toml:"db_name"`
 }
 
-func loadDatabaseConfig(config databaseConfig) databaseConfig {
-	return databaseConfig{
-		Host:     envOrDefault(os.Getenv("DB_HOST"), config.Host),
-		Port:     envOrDefault(os.Getenv("DB_PORT"), config.Port),
-		User:     envOrDefault(os.Getenv("DB_USER"), config.User),
-		Password: envOrDefault(os.Getenv("DB_PASSWORD"), config.Password),
-		Name:     envOrDefault(os.Getenv("DB_NAME"), config.Name),
+func loadDatabaseConfig(config DatabaseConfig) DatabaseConfig {
+	return DatabaseConfig{
+		Host:     envOrDefaultString(os.Getenv("DB_HOST"), config.Host),
+		Port:     envOrDefaultString(os.Getenv("DB_PORT"), config.Port),
+		User:     envOrDefaultString(os.Getenv("DB_USER"), config.User),
+		Password: envOrDefaultString(os.Getenv("DB_PASSWORD"), config.Password),
+		Name:     envOrDefaultString(os.Getenv("DB_NAME"), config.Name),
 	}
 }
 
-func GetDbConfig() databaseConfig {
-	return databaseConfig{
+func GetDbConfig() DatabaseConfig {
+	return DatabaseConfig{
 		Host:     globalConfig.Database.Host,
 		Port:     globalConfig.Database.Port,
 		User:     globalConfig.Database.User,
