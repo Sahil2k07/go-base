@@ -16,8 +16,9 @@ var (
 )
 
 type GlobalConfig struct {
-	App      appConfig      `toml:"app"`
-	Database databaseConfig `toml:"database"`
+	App      AppConfig      `toml:"app"`
+	Database DatabaseConfig `toml:"database"`
+	Server   ServerConfig   `toml:"server"`
 }
 
 func LoadConfigs(filepath string) GlobalConfig {
@@ -30,18 +31,15 @@ func LoadConfigs(filepath string) GlobalConfig {
 				panic("Failed to load development configurations")
 			}
 		}
-
 		globalConfig = GlobalConfig{
 			App:      loadAppConfig(globalConfig.App),
 			Database: loadDatabaseConfig(globalConfig.Database),
+			Server:   loadServerConfig(globalConfig.Server),
 		}
-
 		IsDevelopment = strings.EqualFold(
 			globalConfig.App.Environment,
 			"development",
 		)
-
-		configureLogging()
 	})
 
 	return globalConfig

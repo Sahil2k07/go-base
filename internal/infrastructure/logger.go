@@ -1,4 +1,4 @@
-package configs
+package infrastructure
 
 import (
 	"io"
@@ -9,13 +9,16 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/Sahil2k07/go-base/internal/configs"
 	"github.com/Sahil2k07/go-base/internal/utils"
 )
 
-func configureLogging() {
+func ConfigureLogging() {
 	var output io.Writer = os.Stdout
 
-	if globalConfig.App.FileLogging {
+	appConfig := configs.GetAppConfig()
+
+	if appConfig.FileLogging {
 		logPath := getLogFilePath()
 		os.MkdirAll(filepath.Dir(logPath), 0755)
 
@@ -32,7 +35,7 @@ func configureLogging() {
 		output = io.MultiWriter(os.Stdout, file)
 	}
 
-	if globalConfig.App.JSONLogs {
+	if appConfig.JSONLogs {
 		handler := slog.NewJSONHandler(output, &slog.HandlerOptions{
 			Level: slog.LevelInfo,
 			ReplaceAttr: func(groups []string, attr slog.Attr) slog.Attr {
