@@ -4,6 +4,6 @@ import "github.com/Sahil2k07/go-base/internal/features/auth"
 
 type authStore struct{}
 
-func NewAuthStore() auth.AuthRepository {
+func NewAuthRepository() auth.AuthRepository {
 	return &authStore{}
 }
