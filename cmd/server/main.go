@@ -16,7 +16,7 @@ var appConfig configs.GlobalConfig
 func init() {
 	appConfig = configs.LoadConfigs("configs/server.toml")
 	database.ConnectPostgres()
-	infrastructure.ConfigureLogging()
+	infrastructure.ConfigureLogging("server")
 }
 
 func main() {

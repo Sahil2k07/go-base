@@ -12,7 +12,7 @@ import (
 func init() {
 	configs.LoadConfigs("configs/migration.toml")
 	database.ConnectPostgres()
-	infrastructure.ConfigureLogging()
+	infrastructure.ConfigureLogging("migration")
 }
 
 func main() {

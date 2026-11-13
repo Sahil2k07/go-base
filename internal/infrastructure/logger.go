@@ -6,20 +6,23 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
-	"runtime"
-	"strings"
 
 	"github.com/Sahil2k07/go-base/internal/configs"
 	"github.com/Sahil2k07/go-base/internal/utils"
 )
 
-func ConfigureLogging() {
+func ConfigureLogging(fileName string) {
 	var output io.Writer = os.Stdout
 
 	appConfig := configs.GetAppConfig()
 
 	if appConfig.FileLogging {
-		logPath := getLogFilePath()
+		logPath := filepath.Join(
+			utils.ResolveProjectRoot(),
+			"logs",
+			fileName+".log",
+		)
+
 		os.MkdirAll(filepath.Dir(logPath), 0755)
 
 		file, err := os.OpenFile(
@@ -56,26 +59,4 @@ func ConfigureLogging() {
 	}
 
 	log.SetOutput(output)
-}
-
-func getLogFilePath() string {
-	logDir := filepath.Join(utils.ResolveProjectRoot(), "logs")
-
-	if _, file, _, ok := runtime.Caller(6); ok {
-		return filepath.Join(
-			logDir,
-			filepath.Base(filepath.Dir(file))+".log",
-		)
-	}
-
-	if executable, err := os.Executable(); err == nil {
-		name := strings.TrimSuffix(
-			filepath.Base(executable),
-			filepath.Ext(executable),
-		)
-
-		return filepath.Join(logDir, name+".log")
-	}
-
-	return filepath.Join(logDir, "app.log")
 }
