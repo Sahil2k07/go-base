@@ -1,42 +1,22 @@
 package main
 
 import (
-	"github.com/labstack/echo/v5"
-	"github.com/labstack/echo/v5/middleware"
-
 	"github.com/Sahil2k07/go-base/internal/apps"
 	"github.com/Sahil2k07/go-base/internal/configs"
 	"github.com/Sahil2k07/go-base/internal/database"
 	"github.com/Sahil2k07/go-base/internal/infrastructure"
-	"github.com/Sahil2k07/go-base/internal/middlewares"
 )
 
 var appConfig configs.GlobalConfig
 
 func init() {
-	infrastructure.ConfigureLogging("server")
 	appConfig = configs.LoadConfigs("configs/server.toml")
+	infrastructure.ConfigureLogging("server")
 	database.ConnectPostgres()
 }
 
 func main() {
-	e := echo.New()
-
-	e.Use(middleware.RequestLogger())
-	e.Use(middleware.Recover())
-
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     appConfig.Server.Origins,
-		AllowHeaders:     []string{echo.HeaderAuthorization, echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-		AllowCredentials: true,
-	}))
-
-	publicGroup := e.Group("/api")
-
-	privateGroup := e.Group("/api")
-	privateGroup.Use(middlewares.AuthMiddleware())
-
-	apps.BootstrapServer(appConfig, publicGroup, privateGroup)
+	e := apps.NewServer(appConfig)
 
 	if err := e.Start(appConfig.Server.Port); err != nil {
 		e.Logger.Error("failed to start server", "error", err)
