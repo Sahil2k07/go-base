@@ -9,17 +9,15 @@ import (
 )
 
 func init() {
+	infrastructure.ConfigureLogging("gen")
 	configs.LoadConfigs("configs/migration.toml")
 	database.ConnectPostgres()
-	infrastructure.ConfigureLogging("gen")
 }
 
 func main() {
 	g := gen.NewGenerator(gen.Config{
 		OutPath: "internal/gen",
 	})
-
-	g.UseDB(database.DB)
 
 	g.ApplyBasic(
 		models.User{},

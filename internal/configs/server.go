@@ -31,7 +31,13 @@ func loadServerConfig(config ServerConfig) ServerConfig {
 
 func GetServerConfig() ServerConfig {
 	return ServerConfig{
-		Port:    globalConfig.Database.Port,
-		Origins: globalConfig.Server.Origins,
+		Port:               globalConfig.Database.Port,
+		Origins:            globalConfig.Server.Origins,
+		EncryptionSecret:   globalConfig.Server.EncryptionSecret,
+		AccessTokenSecret:  globalConfig.Server.AccessTokenSecret,
+		AccessTokenExpiry:  globalConfig.Server.AccessTokenExpiry,
+		RefreshTokenSecret: globalConfig.Server.RefreshTokenSecret,
+		RefreshTokenExpiry: globalConfig.Server.RefreshTokenExpiry,
+		BcryptCost:         globalConfig.Server.BcryptCost,
 	}
 }

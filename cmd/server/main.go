@@ -14,9 +14,9 @@ import (
 var appConfig configs.GlobalConfig
 
 func init() {
+	infrastructure.ConfigureLogging("server")
 	appConfig = configs.LoadConfigs("configs/server.toml")
 	database.ConnectPostgres()
-	infrastructure.ConfigureLogging("server")
 }
 
 func main() {
@@ -31,12 +31,12 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	publicGroup := e.Group("/")
+	publicGroup := e.Group("/api")
 
 	privateGroup := e.Group("/api")
 	privateGroup.Use(middlewares.AuthMiddleware())
 
-	apps.BootstrapServer(publicGroup, privateGroup)
+	apps.BootstrapServer(appConfig, publicGroup, privateGroup)
 
 	if err := e.Start(appConfig.Server.Port); err != nil {
 		e.Logger.Error("failed to start server", "error", err)

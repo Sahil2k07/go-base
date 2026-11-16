@@ -13,3 +13,9 @@ db_name = "go-base"
 [server]
 port = ":5000"
 origins = ["http://localhost:3000", "https://example.com"]
+access_token_secret = "3H8a5WsUIIDtDaTmiK8Ok5nJJOLnubCEzUiLbXKQsNkuJ2UHKhQcQMSXo3hy3Eiv"
+access_token_expiry = "15m"
+refresh_token_secret = "ExfgD4maEfWOt9exwLYmR1qDL20IFzgHyuTguReG3DvLTjcul-CfMn47Hmmi3PLn"
+refresh_token_expiry = "72h"
+encryption_secret = "LYoCBCcYSZ1YfxJ40HlqCvA5d54oWXMx"
+bcrypt_cost = 12

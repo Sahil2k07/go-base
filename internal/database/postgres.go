@@ -4,11 +4,13 @@ import (
 	"log/slog"
 
 	"github.com/Sahil2k07/go-base/internal/configs"
+	"github.com/Sahil2k07/go-base/internal/gen"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+var GQ *gen.Query
 
 func ConnectPostgres() {
 	gormLog := newGormLogger()
@@ -24,4 +26,5 @@ func ConnectPostgres() {
 	}
 
 	DB = db
+	GQ = gen.Use(db)
 }
