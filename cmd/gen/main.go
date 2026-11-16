@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	infrastructure.ConfigureLogging("gen")
 	configs.LoadConfigs("configs/migration.toml")
+	infrastructure.ConfigureLogging("gen")
 	database.ConnectPostgres()
 }
 

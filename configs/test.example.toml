@@ -1,0 +1,25 @@
+[app]
+environment = "test"
+json_logs = false
+file_logging = false
+
+[database]
+db_host = "127.0.0.1"
+db_port = "54329"
+db_user = "postgres"
+db_password = "postgres"
+db_name = "app_test"
+
+[server]
+port = ":0"
+origins = ["http://localhost:3000"]
+access_token_secret = "test-access-secret-test-access-secret-test-access-secret"
+access_token_expiry = "15m"
+refresh_token_secret = "test-refresh-secret-test-refresh-secret-test-refresh-secret"
+refresh_token_expiry = "72h"
+encryption_secret = "0123456789abcdef0123456789abcdef"
+bcrypt_cost = 4
+
+# read only by the test harness
+[test]
+postgres_image = "postgres:17-alpine"
