@@ -10,9 +10,9 @@ import (
 )
 
 func init() {
+	infrastructure.ConfigureLogging("migration")
 	configs.LoadConfigs("configs/migration.toml")
 	database.ConnectPostgres()
-	infrastructure.ConfigureLogging("migration")
 }
 
 func main() {

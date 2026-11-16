@@ -48,7 +48,7 @@ func AuthMiddleware() echo.MiddlewareFunc {
 			}
 
 			// Make verified claims available to downstream handlers.
-			c.Set("auth_claims", claims)
+			c.Set(infrastructure.AuthClaimsKey, claims)
 
 			return next(c)
 		}

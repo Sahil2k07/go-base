@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type cryptoService struct {
+type CryptoService struct {
 	config configs.ServerConfig
 }
 
@@ -39,14 +39,14 @@ type refreshPayload struct {
 	RefreshTokenClaims
 }
 
-func NewCryptoService(config configs.ServerConfig) *cryptoService {
-	return &cryptoService{
+func NewCryptoService(config configs.ServerConfig) *CryptoService {
+	return &CryptoService{
 		config: config,
 	}
 }
 
 // HashPassword hashes a password using bcrypt.
-func (c *cryptoService) HashPassword(password string) (string, error) {
+func (c *CryptoService) HashPassword(password string) (string, error) {
 	hashedBytes, err := bcrypt.GenerateFromPassword(
 		[]byte(password),
 		c.config.BcryptCost,
@@ -59,7 +59,7 @@ func (c *cryptoService) HashPassword(password string) (string, error) {
 }
 
 // CheckPassword verifies a password against its bcrypt hash.
-func (c *cryptoService) CheckPassword(hashedPassword, password string) error {
+func (c *CryptoService) CheckPassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword(
 		[]byte(hashedPassword),
 		[]byte(password),
@@ -67,7 +67,7 @@ func (c *cryptoService) CheckPassword(hashedPassword, password string) error {
 }
 
 // GenerateAccessToken generates a signed and encrypted JWT.
-func (c *cryptoService) GenerateAccessToken(userID, profileID uint, email string) (string, error) {
+func (c *CryptoService) GenerateAccessToken(userID, profileID uint, email string) (string, error) {
 	signer, err := jose.NewSigner(
 		jose.SigningKey{
 			Algorithm: jose.HS256,
@@ -109,7 +109,7 @@ func (c *cryptoService) GenerateAccessToken(userID, profileID uint, email string
 }
 
 // VerifyAccessToken decrypts, verifies and validates an access token.
-func (c *cryptoService) VerifyAccessToken(token string) (*AccessTokenClaims, error) {
+func (c *CryptoService) VerifyAccessToken(token string) (*AccessTokenClaims, error) {
 	parsedToken, err := josejwt.ParseSignedAndEncrypted(
 		token,
 		[]jose.KeyAlgorithm{jose.DIRECT},
@@ -139,7 +139,7 @@ func (c *cryptoService) VerifyAccessToken(token string) (*AccessTokenClaims, err
 }
 
 // GenerateRefreshToken generates a signed JWT carrying the user and session IDs.
-func (c *cryptoService) GenerateRefreshToken(userID uint, sessionID string) (string, error) {
+func (c *CryptoService) GenerateRefreshToken(userID uint, sessionID string) (string, error) {
 	signer, err := jose.NewSigner(
 		jose.SigningKey{
 			Algorithm: jose.HS256,
@@ -175,7 +175,7 @@ func (c *cryptoService) GenerateRefreshToken(userID uint, sessionID string) (str
 }
 
 // VerifyRefreshToken verifies the signature and expiry of a refresh token.
-func (c *cryptoService) VerifyRefreshToken(token string) (*RefreshTokenClaims, error) {
+func (c *CryptoService) VerifyRefreshToken(token string) (*RefreshTokenClaims, error) {
 	parsedToken, err := josejwt.ParseSigned(
 		token,
 		[]jose.SignatureAlgorithm{jose.HS256},
@@ -198,7 +198,7 @@ func (c *cryptoService) VerifyRefreshToken(token string) (*RefreshTokenClaims, e
 }
 
 // HashRefreshToken hashes a refresh token before database storage.
-func (c *cryptoService) HashRefreshToken(token string) string {
+func (c *CryptoService) HashRefreshToken(token string) string {
 	hash := sha256.Sum256([]byte(token))
 
 	return base64.RawURLEncoding.EncodeToString(hash[:])
