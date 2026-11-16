@@ -1,17 +1,16 @@
 package middlewares
 
 import (
+	"github.com/Sahil2k07/go-base/internal/constants"
 	app_errors "github.com/Sahil2k07/go-base/internal/errors"
-	"github.com/Sahil2k07/go-base/internal/features/user"
 	"github.com/Sahil2k07/go-base/internal/infrastructure"
 	"github.com/Sahil2k07/go-base/internal/lib"
 	"github.com/Sahil2k07/go-base/internal/store"
 	"github.com/labstack/echo/v5"
 )
 
-var userRepo user.UserRepository = store.NewUserRepository()
-
 func RequireRoles(roles ...string) echo.MiddlewareFunc {
+	userRepo := store.NewUserRepository()
 
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c *echo.Context) error {
@@ -36,7 +35,9 @@ func RequireRoles(roles ...string) echo.MiddlewareFunc {
 	}
 }
 
-func RequirePermissions(permissions ...string) echo.MiddlewareFunc {
+func RequirePermissions(permissions ...constants.Permission) echo.MiddlewareFunc {
+	userRepo := store.NewUserRepository()
+
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c *echo.Context) error {
 			claims, ok := infrastructure.GetAuthClaims(c)
@@ -45,7 +46,7 @@ func RequirePermissions(permissions ...string) echo.MiddlewareFunc {
 			}
 
 			for _, permission := range permissions {
-				has, err := userRepo.UserHasPermission(claims.UserID, permission)
+				has, err := userRepo.UserHasPermission(claims.UserID, string(permission))
 				if err != nil {
 					return lib.HandleError(c, app_errors.Internal(err))
 				}

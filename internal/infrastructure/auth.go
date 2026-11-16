@@ -1,8 +1,6 @@
 package infrastructure
 
-import (
-	"github.com/labstack/echo/v5"
-)
+import "github.com/labstack/echo/v5"
 
 const AuthClaimsKey = "auth_claims"
 
