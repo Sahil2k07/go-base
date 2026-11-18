@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func printMigrationSummary(start time.Time, table, index, view, function, procedure, trigger int) {
+func PrintMigrationSummary(start time.Time, table, index, view, function, procedure, trigger int) {
 	duration := time.Since(start)
 
 	slog.Info(

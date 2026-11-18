@@ -8,7 +8,6 @@ import (
 
 	"github.com/Sahil2k07/go-base/internal/apps"
 	"github.com/Sahil2k07/go-base/internal/database"
-	"github.com/Sahil2k07/go-base/internal/migrations"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"gorm.io/gorm"
@@ -67,7 +66,7 @@ func Setup(t *testing.T) *Env {
 		dbProxy.DropConnections()
 	})
 
-	if err := migrations.RunMigrations(); err != nil {
+	if err := apps.RunMigrations(); err != nil {
 		t.Fatalf("migrations: %v", err)
 	}
 

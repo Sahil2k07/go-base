@@ -21,7 +21,7 @@ type migrationFile struct {
 	SQL      string
 }
 
-func getMigrationFiles(root string, failOnModified bool, histories []migrationHistory) ([]migrationFile, error) {
+func GetMigrationFiles(root string, failOnModified bool, histories []migrationHistory) ([]migrationFile, error) {
 	var files []migrationFile
 
 	path, exists := utils.ResolvePath(root)

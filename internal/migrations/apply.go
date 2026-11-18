@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func applyMigration(tx *gorm.DB, schemaType string, migrationFiles []migrationFile) error {
+func ApplyMigration(tx *gorm.DB, schemaType string, migrationFiles []migrationFile) error {
 	var histories []migrationHistory
 
 	for _, file := range migrationFiles {
