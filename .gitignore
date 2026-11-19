@@ -5,3 +5,7 @@ vendor
 !/configs/*.example.toml
 
 /logs*
+
+*.exe
+*.out
+*.app
