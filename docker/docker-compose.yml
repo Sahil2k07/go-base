@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: go-base-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_test
+    ports:
+      - "54329:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: golang:1.26-alpine
+    container_name: go-base-app
+    working_dir: /app
+    volumes:
+      - ../:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: app_test
+    command: >
+      sh -c "go run ./cmd/migration &&
+              go run ./cmd/server"
+
+volumes:
+  postgres_data:
