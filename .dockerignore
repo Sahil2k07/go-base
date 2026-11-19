@@ -5,3 +5,5 @@ vendor
 .gitignore
 logs
 LICENSE
+.github
+.claude
