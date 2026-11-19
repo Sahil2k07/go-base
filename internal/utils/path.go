@@ -59,8 +59,15 @@ func ResolveProjectRoot() string {
 		parent := filepath.Dir(dir)
 
 		if parent == dir {
-			slog.Error("failed to find project root: go.mod not found")
-			return ""
+			slog.Warn("go.mod not found; falling back to working directory")
+
+			root, err := os.Getwd()
+			if err != nil {
+				slog.Error("failed to get working directory", "error", err)
+				return ""
+			}
+
+			return root
 		}
 
 		dir = parent
