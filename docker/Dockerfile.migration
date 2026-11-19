@@ -1,0 +1,21 @@
+FROM golang:1.26-alpine AS builder
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY cmd/migration ./cmd/migration
+COPY internal ./internal
+COPY migrations ./migrations
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /migration ./cmd/migration
+
+FROM alpine:3.22
+
+WORKDIR /app
+
+COPY --from=builder /migration .
+COPY migrations ./migrations
+
+ENTRYPOINT ["./migration"]
