@@ -1,7 +1,7 @@
 .git
 *.md
 vendor
-configs
+*.toml
 .gitattributes
 .gitignore
 logs
