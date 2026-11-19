@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Sahil2k07/go-base/internal/migrations"
+	"github.com/Sahil2k07/go-base/internal/apps"
 	"github.com/Sahil2k07/go-base/tests/integration"
 )
 
@@ -30,7 +30,7 @@ func TestSetup(t *testing.T) {
 	})
 
 	t.Run("runner skips applied migrations", func(t *testing.T) {
-		if err := migrations.RunMigrations(); err != nil {
+		if err := apps.RunMigrations(); err != nil {
 			t.Fatalf("second run failed: %v", err)
 		}
 	})

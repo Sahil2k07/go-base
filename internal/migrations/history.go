@@ -19,7 +19,7 @@ type migrationHistory struct {
 	UpdatedAt time.Time
 }
 
-func getMigrationHistory() ([]migrationHistory, error) {
+func GetMigrationHistory() ([]migrationHistory, error) {
 	if err := ensureMigrationHistoryExists(); err != nil {
 		return nil, err
 	}
